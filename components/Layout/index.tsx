@@ -4,11 +4,13 @@ import { FC } from 'react';
 import Footer from './footer';
 import Header from './header';
 
-const PageLayout: FC = () => {
+const PageLayout: FC = ({ children }) => {
     return (
         <Layout className='layout'>
             <Header />
-            <div className='page'></div>
+            <div className='page'>
+                {children}
+            </div>
             <Footer />
         </Layout>
     )
