@@ -1,4 +1,6 @@
 import { Drawer } from 'antd';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC, MouseEventHandler, useState } from 'react';
 
 import { MenuFoldOutlined } from '@ant-design/icons';
@@ -13,11 +15,10 @@ interface HamburgerMenuProps {
 }
 
 let HamburgerMenu: FC<StyledProp<HamburgerMenuProps>> = ({ className, onClose, open }) => {
+    const router = useRouter()
     return (
         <Drawer title="Basic Drawer" placement="right" onClose={onClose} visible={open} className={className}>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            <Link href={`/auth/login?redirect=${router.pathname}`}>Login</Link>
         </Drawer>
     )
 }
@@ -41,7 +42,6 @@ HamburgerMenu = styled(HamburgerMenu)`
 
 const Header: FC<StyledProp> = ({className}) => {
     const [menuOpen, setMenuOpen] = useState(false)
-
     const toggleMenu = () => {
         setMenuOpen(!menuOpen)
     }
@@ -50,7 +50,9 @@ const Header: FC<StyledProp> = ({className}) => {
         <div className={className}>
             <div className='container'>
                 <header className='header'>
-                    <img src='/assets/logo.svg' className='header-logo' />
+                    <Link href='/'>
+                        <img src='/assets/logo.svg' className='header-logo' />
+                    </Link>
                     <IconButton icon={<MenuFoldOutlined />} onClick={toggleMenu}/>
                     <HamburgerMenu open={menuOpen} onClose={toggleMenu} />
                 </header>
@@ -64,7 +66,6 @@ export default styled(Header)`
     color: #59ffd1;
     
     .header {
-        padding: 1em;
         display: flex;
         justify-content: space-between;
     }
