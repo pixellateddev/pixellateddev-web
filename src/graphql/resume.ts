@@ -9,3 +9,13 @@ query Resumes {
   }
 }
 `
+
+
+export const CREATE_RESUME = gql`
+mutation CreateResume($title: String!) {
+  createResume(title: $title) {
+    id
+    title
+  }
+}
+`

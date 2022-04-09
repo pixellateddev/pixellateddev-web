@@ -27,6 +27,7 @@ const Login: FC<StyledProp> = ({ className }) => {
                 <Form 
                     name='login-form'
                     labelCol={{ span: 6}}
+                    labelAlign='left'
                     autoComplete='off'
                     onFinish={onFinish}
                     className='form'
@@ -79,10 +80,6 @@ export default styled(Login)`
 
         .ant-row {
             justify-content: center;
-
-            .ant-form-item-label {
-                text-align: left;
-            }
         }
     }
 
