@@ -1,5 +1,7 @@
 import { Button, Form, Input, Typography } from 'antd';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import styled from '@emotion/styled';
@@ -7,9 +9,15 @@ import styled from '@emotion/styled';
 import { StyledProp } from '../../../emotion';
 
 const Login: FC<StyledProp> = ({ className }) => {
+    const {data: session} = useSession()
+    const router = useRouter()
 
     const onFinish = (values: any) => {
-        console.log('Success:', values);
+        signIn('credentials', values)
+    }
+
+    if (session) {
+        router.replace(router.query.redirect as any)
     }
 
     return (

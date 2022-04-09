@@ -1,4 +1,5 @@
-import { Drawer } from 'antd';
+import { Drawer, Menu, Typography } from 'antd';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, MouseEventHandler, useState } from 'react';
@@ -16,16 +17,51 @@ interface HamburgerMenuProps {
 
 let HamburgerMenu: FC<StyledProp<HamburgerMenuProps>> = ({ className, onClose, open }) => {
     const router = useRouter()
+    const {data: session} = useSession()
     return (
-        <Drawer title="Basic Drawer" placement="right" onClose={onClose} visible={open} className={className}>
-            <Link href={`/auth/login?redirect=${router.pathname}`}>Login</Link>
+        <Drawer title={session?.user?.email ? `Welcome ${session.user.email}` : 'Welcome Anonymous'} placement="right" onClose={onClose} visible={open} className={className}>
+            <Menu mode='vertical' className='menu'>
+                {!session && 
+                    <Link href={`/auth/login?redirect=${router.pathname}`}>
+                        <a>
+                        <Menu.Item>
+                            Login
+                        </Menu.Item>
+                        </a>
+                    </Link>
+                    
+                }
+                <Link href='/resume'>
+                    <a>
+                    <Menu.Item>
+                        Resume
+                    </Menu.Item>
+                    </a>
+                </Link>
+                <Menu.Item>
+                    Resume
+                </Menu.Item>
+                <Menu.Item>
+                    Resume
+                </Menu.Item>
+                {session?.user && (
+                    <Menu.Item>
+                        <Typography.Link onClick={() => signOut()}>Logout</Typography.Link>
+                    </Menu.Item>
+                )}
+            </Menu>
         </Drawer>
     )
 }
 
 HamburgerMenu = styled(HamburgerMenu)`
-    .ant-drawer-content, .ant-drawer-header, .ant-drawer-close {
+    .ant-drawer-content, .ant-drawer-header {
         background-color: rgba(0, 0, 0, 0.7);
+        color: #59ffd1;
+
+    }
+
+    .ant-drawer-title, .ant-drawer-close {
         color: #59ffd1;
     }
 
@@ -35,6 +71,35 @@ HamburgerMenu = styled(HamburgerMenu)`
 
     .ant-drawer-header {
         border-color: #59ffd1;
+    }
+
+    .menu {
+        background-color: transparent;
+        border-right: 0;
+        color: #59ffd1;
+
+        a {
+            color: inherit;
+        }
+
+        .ant-menu-title-content {
+            &:hover {
+                color: inherit
+            }
+        }
+
+        .ant-menu-item {
+            color: inherit;
+
+            &:hover, &:active {
+                background-color: transparent;
+            }
+        }
+
+        .ant-menu-item-selected {
+            background-color: transparent;
+        }
+
     }
 `
 
@@ -46,7 +111,7 @@ const Header: FC<StyledProp> = ({className}) => {
         setMenuOpen(!menuOpen)
     }
 
-    return (
+     return (
         <div className={className}>
             <div className='container'>
                 <header className='header'>
