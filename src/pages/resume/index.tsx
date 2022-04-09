@@ -1,4 +1,6 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Typography } from 'antd';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { useMutation, useQuery } from '@apollo/client';
@@ -10,6 +12,7 @@ import { CREATE_RESUME, RESUMES } from '../../graphql/resume';
 const Resume: FC<StyledProp> = ({ className }) => {
     const {loading, data, error} = useQuery(RESUMES)
     const [ createResume ] = useMutation(CREATE_RESUME)
+    const { asPath } = useRouter()
     console.log({ loading, data, error })
 
     const onFinish = (values: any) => {
@@ -20,7 +23,7 @@ const Resume: FC<StyledProp> = ({ className }) => {
     const onFinishFailed = (values: any) => {
         console.log(values)
     }
-
+ 
     return (
         <div className={className}>
             <h3>Create a new resume</h3>
@@ -43,7 +46,14 @@ const Resume: FC<StyledProp> = ({ className }) => {
             <h3>Use an existing one</h3>
             <div className='existing-resume-list'>
                 {data?.resumes.map((resume: any) => (
-                    <div key={resume.id} className='resume-item'>{resume.title}</div>
+                    <div key={resume.id} className='resume-item'>
+                        <h4>{resume.title}</h4>
+                        <Link href={`${asPath}/edit/${resume.id}`}>
+                            <Button type='link'>
+                                Edit
+                            </Button>
+                        </Link>
+                    </div>
                 ))}
             </div>
             
@@ -61,9 +71,10 @@ export default styled(Resume)`
     padding: 1em;
 
     .create-resume-form {
-        width: 50%;
+        width: 100%;
+        max-width: 200px;
         margin: 0 auto;
-        padding: 2em;
+        padding: 2em 0;
         text-align: center;
     }
 

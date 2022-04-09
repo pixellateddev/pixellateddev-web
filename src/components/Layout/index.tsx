@@ -24,7 +24,7 @@ const PageLayout: FC<StyledProp> = ({ children, className }) => {
 
 export default styled(PageLayout)`
     height: 100vh;
-
+    background-color: transparent;
     .page {
         flex: 1;
     }
