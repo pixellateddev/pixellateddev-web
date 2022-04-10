@@ -32,6 +32,15 @@ query Resume($resumeId: ID!) {
       github
       linkedin
     }
+    workExperience {
+      id
+      role
+      orgName
+      startDate
+      endDate
+      currentlyWorking
+      description
+    }
   }
 }
 `
@@ -63,3 +72,55 @@ mutation EditPersonalDetails($resumeId: ID!, $personalDetails: PersonalDetailsIn
     }
   }
 }`
+
+export const ADD_NEW_JOB = gql`
+mutation Mutation($resumeId: ID!, $newJob: NewJobInput!) {
+  addJobExperience(resumeId: $resumeId, newJob: $newJob) {
+    title
+    id
+    workExperience {
+      id
+      role
+      orgName
+      startDate
+      endDate
+      currentlyWorking
+      description
+    }
+  }
+}
+`
+
+export const DELETE_JOB = gql`
+mutation Mutation($resumeId: ID!, $jobId: ID!) {
+  deleteJobExperience(resumeId: $resumeId, jobId: $jobId) {
+    id
+    workExperience {
+      id
+      role
+      orgName
+      startDate
+      endDate
+      currentlyWorking
+      description
+    }
+  }
+}
+`
+
+export const UPDATE_JOB = gql`
+mutation Mutation($resumeId: ID!, $jobId: ID!, $job: NewJobInput!) {
+  updateJobExperience(resumeId: $resumeId, jobId: $jobId, job: $job) {
+    id
+    workExperience {
+      id
+      role
+      orgName
+      startDate
+      endDate
+      currentlyWorking
+      description
+    }
+  }
+}
+`

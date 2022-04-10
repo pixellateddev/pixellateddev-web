@@ -9,9 +9,20 @@ export interface PersonalDetails {
     linkedin?: string
 }
 
+export interface Job {
+    id: string
+    orgName: string
+    role: string
+    startDate: string
+    currentlyWorking: boolean
+    endDate?: string
+    description?: string
+}
+
 
 export interface Resume {
     id: string
     title: string
     personalDetails?: PersonalDetails
+    workExperience?: Job[]
 }

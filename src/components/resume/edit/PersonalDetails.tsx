@@ -32,8 +32,6 @@ const PersonalDetails: FC<StyledProp<Props>> = ({ className, selected }) => {
         }})
         next()
     }
-
-    console.log(data?.resume)
     return (
         <WizardView title='Personal Details' selected={selected}>
             <WizardBody>
