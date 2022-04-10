@@ -7,6 +7,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 
 import { StyledProp } from '../../../emotion';
+import { DataLoader } from '../../components/ui';
 import { CREATE_RESUME, RESUMES } from '../../graphql/resume';
 
 const Resume: FC<StyledProp> = ({ className }) => {
@@ -44,17 +45,21 @@ const Resume: FC<StyledProp> = ({ className }) => {
             </div>
             <h6>Or</h6>
             <h3>Use an existing one</h3>
-            <div className='existing-resume-list'>
-                {data?.resumes.map((resume: any) => (
-                    <div key={resume.id} className='resume-item'>
-                        <h4>{resume.title}</h4>
-                        <Link href={`${asPath}/edit/${resume.id}`}>
-                            <Button type='link'>
-                                Edit
-                            </Button>
-                        </Link>
+            <div className='existing-resume-container'>
+                <DataLoader data={data} loading={loading} error={error}>
+                    <div className='existing-resume-list'>
+                        {data?.resumes.map((resume: any) => (
+                            <div key={resume.id} className='resume-item'>
+                                <h4>{resume.title}</h4>
+                                <Link href={`${asPath}/edit/${resume.id}`}>
+                                    <Button type='link'>
+                                        Edit
+                                    </Button>
+                                </Link>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </DataLoader>
             </div>
             
         </div>
@@ -76,6 +81,10 @@ export default styled(Resume)`
         margin: 0 auto;
         padding: 2em 0;
         text-align: center;
+    }
+
+    .existing-resume-container {
+        height: 100%;
     }
 
     .existing-resume-list {

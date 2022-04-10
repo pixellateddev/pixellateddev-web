@@ -3,44 +3,41 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 
+import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 
 import { StyledProp } from '../../../../emotion';
 import { PersonalDetails } from '../../../components/resume/edit';
-
-interface MenuViewProps {
-    value: string
-    selectedKeys: string[]
-}
-
-const MenuView: FC<MenuViewProps> = ({ children, value, selectedKeys }) => {
-    if (selectedKeys.includes(value)) {
-        return <div className='tab-view'>{children}</div>
-    }
-    return null
-}
+import { DataLoader, Wizard } from '../../../components/ui';
+import { Step } from '../../../components/ui/Wizard/Wizard';
+import { GET_RESUME, GET_RESUME_DATA } from '../../../graphql/resume';
 
 const EditResume: NextPage<StyledProp> = ({ className }) => {
     const { query: {resumeId} } = useRouter()
-    const [ selectedKeys, setSelectedKeys ] = useState(['personalDetails'])
+    const { data, loading, error } = useQuery<GET_RESUME_DATA>(GET_RESUME, { variables: { resumeId }})
+    const steps: Step[] = [
+        {
+            id: 'personalDetails',
+            label: 'Personal Details',
+            body: PersonalDetails
+        },
+        {
+            id: 'workExperience',
+            label: 'Work Experience',
+            body: PersonalDetails
+        },
+        {
+            id: 'educationDetails',
+            label: 'Education Details',
+            body: PersonalDetails
+        }
+    ]
+    const defaultStep = 'personalDetails'
     return (
         <div className={className}>
-            <Menu
-                selectedKeys={selectedKeys}
-                onSelect={(e) => setSelectedKeys([e.key])}
-                className='tabs'
-            >
-                <Menu.Item key="personalDetails">
-                    Personal Details
-                </Menu.Item>
-                <Menu.Item key="workExperience">
-                    Work Experience
-                </Menu.Item>
-                <Menu.Item key="educationalDetails">
-                    Educational Details
-                </Menu.Item>
-            </Menu>
-            <MenuView value='personalDetails' selectedKeys={selectedKeys}><PersonalDetails /></MenuView>
+            <DataLoader loading={loading} error={error} data={data}>
+                <Wizard steps={steps} defaultStep={defaultStep}/>
+            </DataLoader>
         </div>
     )
 }
@@ -48,14 +45,11 @@ const EditResume: NextPage<StyledProp> = ({ className }) => {
 export default styled(EditResume)`
     background-color: white;
     width: 100%;
-    max-width: 900px;
+    max-width: 1000px;
     height: 100%;
     margin: 0 auto;
     display: flex;
 
-    .tabs {
-        width: 200px;
-    }
 
     .tab-view {
         flex: 1;
