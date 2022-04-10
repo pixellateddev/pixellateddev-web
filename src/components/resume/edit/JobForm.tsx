@@ -21,7 +21,6 @@ const JobForm: FC<JobFormProps> = ({job, editing, onSubmit, onDelete, onEdit, op
     const [form] = Form.useForm()
 
     const onOk = () => {
-        console.log('ok')
         form.submit()
     }
 

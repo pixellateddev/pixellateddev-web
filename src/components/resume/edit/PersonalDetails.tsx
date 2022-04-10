@@ -25,7 +25,6 @@ const PersonalDetails: FC<StyledProp<Props>> = ({ className, selected }) => {
     const [ editPersonalDetails ] = useMutation(EDIT_PERSONAL_DETAILS)
 
     const onSubmit = async (personalDetails: any) => {
-        console.log(personalDetails)
         await editPersonalDetails({variables: {
             personalDetails,
             resumeId

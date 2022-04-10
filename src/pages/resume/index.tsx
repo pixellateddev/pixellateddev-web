@@ -1,4 +1,4 @@
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Empty, Form, Input, Typography } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
@@ -8,30 +8,37 @@ import styled from '@emotion/styled';
 
 import { StyledProp } from '../../../emotion';
 import { DataLoader } from '../../components/ui';
-import { CREATE_RESUME, RESUMES } from '../../graphql/resume';
+import {
+    CREATE_RESUME, DELETE_RESUME, GET_RESUMES, GET_RESUMES_DATA, RESUMES
+} from '../../graphql/resume';
 
 const Resume: FC<StyledProp> = ({ className }) => {
     const {loading, data, error} = useQuery(RESUMES)
     const [ createResume ] = useMutation(CREATE_RESUME)
-    const { asPath } = useRouter()
-    console.log({ loading, data, error })
+    const [ deleteResume ] = useMutation(DELETE_RESUME)
+    const { asPath, push } = useRouter()
 
-    const onFinish = (values: any) => {
-        console.log(values)
-        createResume({variables: values})
+    const onFinish = async (values: any) => {
+        const {data} = await createResume({variables: values})
+        push(`${asPath}/edit/${data.createResume.id}`)
     }
 
-    const onFinishFailed = (values: any) => {
-        console.log(values)
+    const onDelete = (resumeId: string) => {
+        deleteResume({ 
+            variables: { resumeId },
+            update: cache => {
+                const data = cache.readQuery<GET_RESUMES_DATA>({query: RESUMES})!
+                const resumes = data.resumes.filter(resume => resume.id !== resumeId)
+                cache.writeQuery({query: RESUMES, data: { resumes }})
+            }
+        })
     }
- 
     return (
         <div className={className}>
             <h3>Create a new resume</h3>
             <div className='create-resume-form'>
                 <Form
                     onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
                 >
                     <Form.Item name='title' rules={[{required: true}]}>
                         <Input placeholder='Choose a cool name'/>
@@ -56,9 +63,15 @@ const Resume: FC<StyledProp> = ({ className }) => {
                                         Edit
                                     </Button>
                                 </Link>
+                                <Button type='link' onClick={() => onDelete(resume.id)}>
+                                    Delete
+                                </Button>
                             </div>
                         ))}
                     </div>
+                    {!data?.resumes.length && (
+                        <Empty description='Nothing to show here' />
+                    )}
                 </DataLoader>
             </div>
             

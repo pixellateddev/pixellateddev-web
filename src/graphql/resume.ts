@@ -2,6 +2,10 @@ import { gql } from '@apollo/client';
 
 import { Resume } from '../types/resume';
 
+export interface GET_RESUMES_DATA {
+  resumes: Resume[]
+}
+
 export const RESUMES = gql`
 query Resumes {
   resumes {
@@ -51,6 +55,16 @@ mutation CreateResume($title: String!) {
   createResume(title: $title) {
     id
     title
+  }
+}
+`
+
+export const DELETE_RESUME = gql`
+mutation Mutation($resumeId: ID!) {
+  deleteResume(resumeId: $resumeId) {
+    status
+    message
+    code
   }
 }
 `

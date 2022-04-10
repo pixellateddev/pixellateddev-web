@@ -53,16 +53,15 @@ const WorkExperience: FC = () => {
     }
 
     const { resume } = data!
-    console.log(resume)
     return (
         <WizardView title='Work Experience'>
             <WizardBody>
-                {resume.workExperience && resume.workExperience.map(job => (
+                {resume.workExperience && resume.workExperience.map((job: Job) => (
                     <JobDetails key={job.id} job={job} onEdit={() => openModal(job)} onDelete={() => onDeleteJob(job.id)}/>
                 ))}
 
                 {!resume.workExperience?.length && (
-                    <Empty description='Nothing to show here' image={Empty.PRESENTED_IMAGE_SIMPLE}/>
+                    <Empty description='Nothing to show here' />
                 )}
 
                 {editing && <JobForm open onSubmit={handleSubmit} job={selectedJob} onClose={closeModal}/>}
