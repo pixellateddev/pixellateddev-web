@@ -11,8 +11,8 @@ interface IWizardContext {
     steps: Step[]
     defaultStep: string
     selectedStep: Step
-    selectedView: string[]
-    setSelectedView: (value: string[]) => void
+    selectedView: string
+    setSelectedView: (value: string) => void
     next: () => void
     previous: () => void
     canNext: boolean

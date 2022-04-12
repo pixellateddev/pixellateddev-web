@@ -21,22 +21,22 @@ interface WizardProps {
 
 
 const Wizard: FC<StyledProp<WizardProps>> = ({ steps, defaultStep, className }) => {
-    const [selectedView, setSelectedView] = useState([defaultStep])
+    const [selectedView, setSelectedView] = useState(defaultStep)
     const selectedIndex = steps.findIndex(step => selectedView.includes(step.id))
     const selectedStep = steps[selectedIndex]
     const total = steps.length
-    const canPrevious = selectedIndex
+    const canPrevious = !!selectedIndex
     const canNext = selectedIndex < total - 1
 
     const next = () => {
         if (canNext) {
-            setSelectedView([steps[selectedIndex + 1].id])
+            setSelectedView(steps[selectedIndex + 1].id)
         }
     }
 
     const previous = () => {
         if (canPrevious) {
-            setSelectedView([steps[selectedIndex - 1].id])
+            setSelectedView(steps[selectedIndex - 1].id)
         }
     }
     return (

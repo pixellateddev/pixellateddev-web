@@ -23,6 +23,7 @@ export default styled(WizardView)`
     padding: 1em;
     display: grid;
     width: 100%;
+    height: 100%;
     grid-template-rows: 3em auto;
     .wizard-body {
         padding: 1em;
