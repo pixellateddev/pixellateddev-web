@@ -1,6 +1,6 @@
 import moment, { Moment } from 'moment';
 
-import { Job } from '../types/resume';
+import { Course, Job } from '../types/resume';
 
 interface ParsedJob {
     id?: string
@@ -8,6 +8,40 @@ interface ParsedJob {
     role: string
     description?: string
     tenure: Moment[]
+}
+
+interface ParsedCourse {
+    id?: string
+    courseName: string
+    instituteName: string
+    tenure: Moment[]
+    location: string
+    score: string
+}
+
+export const parseCourse = (course: Course): ParsedCourse => {
+    const { startYear, endYear, id, courseName, instituteName, location, score } = course
+    const tenure = [moment(startYear)]
+    endYear && tenure.push(moment(endYear))
+    return {
+        id, courseName, instituteName, location, score, tenure
+    }
+}
+
+export const reverseParseCourse = (parsedCourse: ParsedCourse): Course => {
+    const {id, instituteName, courseName, location, score, tenure } = parsedCourse
+    const startYear = tenure[0].format('yyyy')
+
+    let endYear, currentlyPersuing = true
+
+    if (tenure.length == 2 && tenure[1]) {
+        endYear = tenure[1].format('yyyy')
+        currentlyPersuing = false
+    }
+
+    return {
+        id: id!, instituteName, courseName, location, score, startYear, endYear, currentlyPersuing
+    }
 }
 
 export const parseJob = (job: Job): ParsedJob => {

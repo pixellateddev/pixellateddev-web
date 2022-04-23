@@ -45,6 +45,16 @@ query Resume($resumeId: ID!) {
       currentlyWorking
       description
     }
+    educationDetails {
+      id
+      courseName
+      instituteName
+      startYear
+      endYear
+      currentlyPersuing
+      location
+      score
+    }
   }
 }
 `
@@ -134,6 +144,62 @@ mutation Mutation($resumeId: ID!, $jobId: ID!, $job: NewJobInput!) {
       endDate
       currentlyWorking
       description
+    }
+  }
+}
+`
+
+export const ADD_NEW_COURSE = gql`
+mutation Mutation($resumeId: ID!, $course: NewCourseInput!) {
+  addCourse(resumeId: $resumeId, course: $course) {
+    id
+    userId
+    title
+    educationDetails {
+      currentlyPersuing
+      endYear
+      startYear
+      id
+      courseName
+      instituteName
+      location
+      score
+    }
+  }
+}`
+
+
+export const DELETE_COURSE = gql`
+mutation Mutation($resumeId: ID!, $courseId: ID!) {
+  deleteCourse(resumeId: $resumeId, courseId: $courseId) {
+    id
+    educationDetails {
+      currentlyPersuing
+      endYear
+      startYear
+      id
+      courseName
+      instituteName
+      location
+      score
+    }
+  }
+}
+`
+
+export const UPDATE_COURSE = gql`
+mutation Mutation($resumeId: ID!, $courseId: ID!, $course: NewCourseInput!) {
+  updateCourse(resumeId: $resumeId, courseId: $courseId, course: $course) {
+    id
+    educationDetails {
+      currentlyPersuing
+      endYear
+      startYear
+      id
+      courseName
+      instituteName
+      location
+      score
     }
   }
 }

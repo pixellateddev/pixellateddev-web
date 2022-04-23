@@ -19,10 +19,22 @@ export interface Job {
     description?: string
 }
 
+export interface Course {
+    id: string
+    courseName: string
+    instituteName: string
+    startYear: string
+    endYear?: string
+    currentlyPersuing: boolean
+    location: string
+    score: string
+}
+
 
 export interface Resume {
     id: string
     title: string
     personalDetails?: PersonalDetails
     workExperience?: Job[]
+    educationDetails?: Course[]
 }

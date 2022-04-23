@@ -5,30 +5,28 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 
 import { StyledProp } from '../../../../emotion';
-import { Job } from '../../../types/resume';
+import { Course } from '../../../types/resume';
 
-interface JobDetailsProps {
-    job: Job
+interface CourseDetailsProps {
+    course: Course
     onDelete: () => void
     onEdit: () => void
 }
 
-
-export const JobDetails: FC<StyledProp<JobDetailsProps>> = ({ job, onDelete, onEdit, className }) => {
+const CourseDetails: FC<StyledProp<CourseDetailsProps>> = ({ className, onDelete, onEdit, course }) => {
     return (
         <div className={className}>
             <Descriptions layout='horizontal' column={1} size='small' labelStyle={{fontWeight: 'bold'}} className='info'>
-                <Descriptions.Item label="Job Role">{job.role}</Descriptions.Item>
-                <Descriptions.Item label="Organization Name">{job.orgName}</Descriptions.Item>
-                <Descriptions.Item label="Tenure">{job.startDate} - {job.currentlyWorking ? 'Present' : job.endDate}</Descriptions.Item>
-                <Descriptions.Item label="Description">
-                {job.description}
-                </Descriptions.Item>
+                <Descriptions.Item label='Course Name'>{course.courseName}</Descriptions.Item>
+                <Descriptions.Item label='Institute Name'>{course.instituteName}</Descriptions.Item>
+                <Descriptions.Item label='Tenure'>{course.startYear} - {course.currentlyPersuing ? 'Present' : course.endYear}</Descriptions.Item>
+                <Descriptions.Item label='Location'>{course.location}</Descriptions.Item>
+                <Descriptions.Item label='score'>{course.score}</Descriptions.Item>
             </Descriptions>
             <div className='actions'>
                 <Button icon={<EditOutlined />} onClick={onEdit}>Edit</Button>
                 <Popconfirm
-                    title="Are you sure to delete this Job?"
+                    title="Are you sure to delete this Course?"
                     onConfirm={onDelete}
                     okText="Yes"
                     cancelText="No"
@@ -37,13 +35,12 @@ export const JobDetails: FC<StyledProp<JobDetailsProps>> = ({ job, onDelete, onE
                 >
                     <Button icon={<DeleteOutlined />} danger>Delete</Button>
                 </Popconfirm>
-                
             </div>
-      </div>
+        </div>
     )
 }
 
-export default styled(JobDetails)`
+export default styled(CourseDetails)`
     display: flex;
     gap: 1em;
     margin-bottom: 1.5em;

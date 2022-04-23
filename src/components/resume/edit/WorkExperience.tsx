@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 
 import { useMutation, useQuery } from '@apollo/client';
 
+import { useWizard } from '../../../context/WizardContext';
 import {
     ADD_NEW_JOB, DELETE_JOB, GET_RESUME, GET_RESUME_DATA, UPDATE_JOB
 } from '../../../graphql/resume';
@@ -19,6 +20,9 @@ const WorkExperience: FC = () => {
 
     const [ editing, setEditing ] = useState(false)
     const [ selectedJob, setSelectedJob ] = useState<Job | undefined>()
+
+    const { next, canNext, previous, canPrevious} = useWizard()
+
 
     const [addNewJob] = useMutation(ADD_NEW_JOB)
     const [deleteJob] = useMutation(DELETE_JOB)
@@ -68,7 +72,9 @@ const WorkExperience: FC = () => {
             </WizardBody>
             
             <WizardActions>
+                {canPrevious && <Button onClick={previous}>Previous</Button>}
                 <Button onClick={() => openModal()} >Add New Job</Button>
+                <Button type='primary' onClick={next}>Save and Continue</Button>
             </WizardActions>
         </WizardView>
     )
