@@ -55,6 +55,12 @@ query Resume($resumeId: ID!) {
       location
       score
     }
+    skills {
+      id
+      skill
+      proficiency
+      description
+    }
   }
 }
 `
@@ -98,7 +104,7 @@ mutation EditPersonalDetails($resumeId: ID!, $personalDetails: PersonalDetailsIn
 }`
 
 export const ADD_NEW_JOB = gql`
-mutation Mutation($resumeId: ID!, $newJob: NewJobInput!) {
+mutation Mutation($resumeId: ID!, $newJob: JobInput!) {
   addJobExperience(resumeId: $resumeId, newJob: $newJob) {
     title
     id
@@ -133,7 +139,7 @@ mutation Mutation($resumeId: ID!, $jobId: ID!) {
 `
 
 export const UPDATE_JOB = gql`
-mutation Mutation($resumeId: ID!, $jobId: ID!, $job: NewJobInput!) {
+mutation Mutation($resumeId: ID!, $jobId: ID!, $job: JobInput!) {
   updateJobExperience(resumeId: $resumeId, jobId: $jobId, job: $job) {
     id
     workExperience {
@@ -150,7 +156,7 @@ mutation Mutation($resumeId: ID!, $jobId: ID!, $job: NewJobInput!) {
 `
 
 export const ADD_NEW_COURSE = gql`
-mutation Mutation($resumeId: ID!, $course: NewCourseInput!) {
+mutation Mutation($resumeId: ID!, $course: CourseInput!) {
   addCourse(resumeId: $resumeId, course: $course) {
     id
     userId
@@ -188,7 +194,7 @@ mutation Mutation($resumeId: ID!, $courseId: ID!) {
 `
 
 export const UPDATE_COURSE = gql`
-mutation Mutation($resumeId: ID!, $courseId: ID!, $course: NewCourseInput!) {
+mutation Mutation($resumeId: ID!, $courseId: ID!, $course: CourseInput!) {
   updateCourse(resumeId: $resumeId, courseId: $courseId, course: $course) {
     id
     educationDetails {
@@ -200,6 +206,46 @@ mutation Mutation($resumeId: ID!, $courseId: ID!, $course: NewCourseInput!) {
       instituteName
       location
       score
+    }
+  }
+}
+`
+
+export const ADD_SKILL=gql`
+mutation Mutation($resumeId: ID!, $skill: SkillInput!) {
+  addSkill(resumeId: $resumeId, skill: $skill) {
+    id
+    skills {
+      id
+      skill
+      proficiency
+      description
+    }
+  }
+}`
+
+export const DELETE_SKILL=gql`
+mutation Mutation($resumeId: ID!, $skillId: ID!) {
+  deleteSkill(resumeId: $resumeId, skillId: $skillId) {
+    id
+    skills {
+      id
+      skill
+      proficiency
+      description
+    }
+  }
+}`
+
+export const UPDATE_SKILL = gql`
+mutation Mutation($resumeId: ID!, $skillId: ID!, $skill: SkillInput!) {
+  updateSkill(resumeId: $resumeId, skillId: $skillId, skill: $skill) {
+    id
+    skills {
+      id
+      skill
+      proficiency
+      description
     }
   }
 }

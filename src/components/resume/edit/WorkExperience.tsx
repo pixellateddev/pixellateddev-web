@@ -1,17 +1,16 @@
-import { Button, Empty } from 'antd';
+import { Button, Descriptions, Empty } from 'antd';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 
 import { useMutation, useQuery } from '@apollo/client';
 
-import { useWizard } from '../../../context/WizardContext';
 import {
     ADD_NEW_JOB, DELETE_JOB, GET_RESUME, GET_RESUME_DATA, UPDATE_JOB
 } from '../../../graphql/resume';
 import { Job } from '../../../types/resume';
 import { WizardActions, WizardBody } from '../../ui/Wizard';
 import WizardView from '../../ui/Wizard/WizardView';
-import JobDetails from './JobDetails';
+import Details from './Details';
 import JobForm from './JobForm';
 
 const WorkExperience: FC = () => {
@@ -20,9 +19,6 @@ const WorkExperience: FC = () => {
 
     const [ editing, setEditing ] = useState(false)
     const [ selectedJob, setSelectedJob ] = useState<Job | undefined>()
-
-    const { next, canNext, previous, canPrevious} = useWizard()
-
 
     const [addNewJob] = useMutation(ADD_NEW_JOB)
     const [deleteJob] = useMutation(DELETE_JOB)
@@ -61,7 +57,14 @@ const WorkExperience: FC = () => {
         <WizardView title='Work Experience'>
             <WizardBody>
                 {resume.workExperience && resume.workExperience.map((job: Job) => (
-                    <JobDetails key={job.id} job={job} onEdit={() => openModal(job)} onDelete={() => onDeleteJob(job.id)}/>
+                    <Details key={job.id} onEdit={() => openModal(job)} onDelete={() => onDeleteJob(job.id)}>
+                        <Descriptions.Item label="Job Role">{job.role}</Descriptions.Item>
+                        <Descriptions.Item label="Organization Name">{job.orgName}</Descriptions.Item>
+                        <Descriptions.Item label="Tenure">{job.startDate} - {job.currentlyWorking ? 'Present' : job.endDate}</Descriptions.Item>
+                        <Descriptions.Item label="Description">
+                        {job.description}
+                        </Descriptions.Item>
+                    </Details>
                 ))}
 
                 {!resume.workExperience?.length && (
@@ -72,9 +75,7 @@ const WorkExperience: FC = () => {
             </WizardBody>
             
             <WizardActions>
-                {canPrevious && <Button onClick={previous}>Previous</Button>}
                 <Button onClick={() => openModal()} >Add New Job</Button>
-                <Button type='primary' onClick={next}>Save and Continue</Button>
             </WizardActions>
         </WizardView>
     )

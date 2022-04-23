@@ -30,6 +30,13 @@ export interface Course {
     score: string
 }
 
+export interface Skill {
+    id: string
+    skill: string
+    proficiency: number
+    description?: string
+}
+
 
 export interface Resume {
     id: string
@@ -37,4 +44,5 @@ export interface Resume {
     personalDetails?: PersonalDetails
     workExperience?: Job[]
     educationDetails?: Course[]
+    skills?: Skill[]
 }

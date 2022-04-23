@@ -7,8 +7,9 @@ import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 
 import { StyledProp } from '../../../../emotion';
-import { PersonalDetails, WorkExperience } from '../../../components/resume/edit';
-import EducationDetails from '../../../components/resume/edit/EducationDetails';
+import {
+    EducationDetails, PersonalDetails, Skills, WorkExperience
+} from '../../../components/resume/edit';
 import { DataLoader, Wizard } from '../../../components/ui';
 import { Step } from '../../../components/ui/Wizard/Wizard';
 import { GET_RESUME, GET_RESUME_DATA } from '../../../graphql/resume';
@@ -31,6 +32,11 @@ const EditResume: NextPage<StyledProp> = ({ className }) => {
             id: 'educationDetails',
             label: 'Education Details',
             body: EducationDetails
+        },
+        {
+            id: 'skills',
+            label: 'Skills',
+            body: Skills
         }
     ]
     const defaultStep = steps[0].id

@@ -8,7 +8,6 @@ import { parseCourse, reverseParseCourse } from '../../../utils/resume';
 interface CourseFormProps {
     course?: Course
     onSubmit: (course: Course) => void
-    onDelete?: () => void
     open: boolean
     onClose?: () => void
 }

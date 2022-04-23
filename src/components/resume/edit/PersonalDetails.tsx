@@ -88,8 +88,7 @@ const PersonalDetails: FC<StyledProp<Props>> = ({ className, selected }) => {
                     </Row>
                 </Form>
             </WizardBody>
-            <WizardActions>
-                {canPrevious && <Button onClick={previous}>Previous</Button>}
+            <WizardActions hideNext>
                 <Button type='primary' onClick={() => form.submit()}>Save and Continue</Button>
             </WizardActions>
         </WizardView>

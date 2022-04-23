@@ -26,11 +26,11 @@ const WizardRoot: FC<StyledProp> = ({ className }) => {
 }
 
 export default styled(WizardRoot)`
-    /* display: flex; */
     height: 100%;
     width: 100%;
+    align-items: baseline;
 
-    .ant-tabs-content {
+    .ant-tabs-content, .ant-tabs-content-holder {
         height: 100%;
     }
 `
